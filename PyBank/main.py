@@ -13,7 +13,7 @@ last_revenue = 0
 month_of_change = []
 revenue_change_list = []
 greatest_increase = ["", 0]
-greatest_decrease = ["", 99999999]
+greatest_decrease = ["", 9999999]
 total_revenue = 0
 
 # Read the csv and convert it into a list of dictionaries
@@ -32,12 +32,12 @@ with open(filepath) as revenue_data:
         month_of_change = month_of_change + [row["Date"]]
 
         # Compute the greatest increase
-        if (revenue_change > greatest_increase[1]):
+        if (revenue_change > 0):
             greatest_increase[0] = row["Date"]
             greatest_increase[1] = max(revenue_change_list)
 
         # Compute the greatest decrease
-        if (revenue_change < greatest_decrease[1]):
+        if (revenue_change < 0):
             greatest_decrease[0] = row["Date"]
             greatest_decrease[1] = min(revenue_change_list)
 
