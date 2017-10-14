@@ -137,18 +137,6 @@ total_budget
 # reading students data 
 students = 'raw_data/students_complete.csv'
 students = pd.read_csv(students)
-students.shape
-```
-
-
-
-
-    (39170, 7)
-
-
-
-
-```python
 students.head()
 ```
 
@@ -270,28 +258,28 @@ average_reading_score
 
 ```python
 # Passing rate in Math in the district 
-math_pass_rate = len(students[students['math_score']>=70])*100/len(students)
+math_pass_rate = len(students[students['math_score']>70])*100/len(students)
 math_pass_rate
 ```
 
 
 
 
-    74.9808526933878
+    72.39213683941792
 
 
 
 
 ```python
 # Passing rate in reading in the district 
-reading_pass_rate = len(students[students['reading_score']>=70])*100/len(students)
+reading_pass_rate = len(students[students['reading_score']>70])*100/len(students)
 reading_pass_rate
 ```
 
 
 
 
-    85.80546336482001
+    82.97166198621395
 
 
 
@@ -305,7 +293,7 @@ average_pass_rate
 
 
 
-    80.39315802910392
+    77.68189941281594
 
 
 
@@ -374,9 +362,9 @@ district_summary
       <td>24649428</td>
       <td>78.99</td>
       <td>81.88</td>
-      <td>74.98</td>
-      <td>85.81</td>
-      <td>80.39</td>
+      <td>72.39</td>
+      <td>82.97</td>
+      <td>77.68</td>
     </tr>
   </tbody>
 </table>
@@ -432,15 +420,23 @@ district_summary
       <td>$24,649,428</td>
       <td>78.99</td>
       <td>81.88</td>
-      <td>74.98%</td>
-      <td>85.81%</td>
-      <td>80.39</td>
+      <td>72.39%</td>
+      <td>82.97%</td>
+      <td>77.68</td>
     </tr>
   </tbody>
 </table>
 </div>
 
 
+
+
+```python
+# The above district level summary table reveals that with a total of 24.5 million dollar budget and having over 39000 
+# students in the district, performance of students is better in reading than in math as the average score is higher in reading. 
+# This is also reflected in the passing rate. 
+# Passing rate in reading is higher than in math by around 10 percentage points. 
+```
 
 
 ```python
@@ -1049,28 +1045,6 @@ Score</th>
 
 
 ```python
-schools_summary_df.dtypes
-```
-
-
-
-
-    School Name                 object
-    School Type                 object
-    Total Students               int64
-    Total budget                 int64
-    Average Math \nScore       float64
-    Average Reading \nScore    float64
-    Per Student Budget         float64
-    % Passing Math             float64
-    % Passing Reading          float64
-    Overall Passing Rate       float64
-    dtype: object
-
-
-
-
-```python
 # Formating Schools Summary Table 
 schools_summary_df["Average Math \nScore"] = schools_summary_df["Average Math \nScore"].map("{0:,.2f}".format)
 schools_summary_df["Average Reading \nScore"] = schools_summary_df["Average Reading \nScore"].map("{0:,.2f}".format)
@@ -1079,6 +1053,7 @@ schools_summary_df["Per Student Budget"] = schools_summary_df["Per Student Budge
 schools_summary_df["% Passing Math"] = schools_summary_df["% Passing Math"].map("{0:,.2f}%".format)
 schools_summary_df["% Passing Reading"] = schools_summary_df["% Passing Reading"].map("{0:,.2f}%".format)
 schools_summary_df["Overall Passing Rate"] = schools_summary_df["Overall Passing Rate"].map("{0:,.2f}%".format)
+schools_summary_df.set_index(['School Name'], inplace=True)
 schools_summary_df
 
 ```
@@ -1104,7 +1079,6 @@ schools_summary_df
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>School Name</th>
       <th>School Type</th>
       <th>Total Students</th>
       <th>Total budget</th>
@@ -1117,11 +1091,22 @@ Score</th>
       <th>% Passing Reading</th>
       <th>Overall Passing Rate</th>
     </tr>
+    <tr>
+      <th>School Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
-      <td>Huang High School</td>
+      <th>Huang High School</th>
       <td>District</td>
       <td>2917</td>
       <td>$1,910,635</td>
@@ -1133,8 +1118,7 @@ Score</th>
       <td>71.07%</td>
     </tr>
     <tr>
-      <th>1</th>
-      <td>Figueroa High School</td>
+      <th>Figueroa High School</th>
       <td>District</td>
       <td>2949</td>
       <td>$1,884,411</td>
@@ -1146,8 +1130,7 @@ Score</th>
       <td>71.09%</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>Shelton High School</td>
+      <th>Shelton High School</th>
       <td>Charter</td>
       <td>1761</td>
       <td>$1,056,600</td>
@@ -1159,8 +1142,7 @@ Score</th>
       <td>91.25%</td>
     </tr>
     <tr>
-      <th>3</th>
-      <td>Hernandez High School</td>
+      <th>Hernandez High School</th>
       <td>District</td>
       <td>4635</td>
       <td>$3,022,020</td>
@@ -1172,8 +1154,7 @@ Score</th>
       <td>71.47%</td>
     </tr>
     <tr>
-      <th>4</th>
-      <td>Griffin High School</td>
+      <th>Griffin High School</th>
       <td>Charter</td>
       <td>1468</td>
       <td>$917,500</td>
@@ -1185,8 +1166,7 @@ Score</th>
       <td>91.55%</td>
     </tr>
     <tr>
-      <th>5</th>
-      <td>Wilson High School</td>
+      <th>Wilson High School</th>
       <td>Charter</td>
       <td>2283</td>
       <td>$1,319,574</td>
@@ -1198,8 +1178,7 @@ Score</th>
       <td>92.09%</td>
     </tr>
     <tr>
-      <th>6</th>
-      <td>Cabrera High School</td>
+      <th>Cabrera High School</th>
       <td>Charter</td>
       <td>1858</td>
       <td>$1,081,356</td>
@@ -1211,8 +1190,7 @@ Score</th>
       <td>91.71%</td>
     </tr>
     <tr>
-      <th>7</th>
-      <td>Bailey High School</td>
+      <th>Bailey High School</th>
       <td>District</td>
       <td>4976</td>
       <td>$3,124,928</td>
@@ -1224,8 +1202,7 @@ Score</th>
       <td>71.97%</td>
     </tr>
     <tr>
-      <th>8</th>
-      <td>Holden High School</td>
+      <th>Holden High School</th>
       <td>Charter</td>
       <td>427</td>
       <td>$248,087</td>
@@ -1237,8 +1214,7 @@ Score</th>
       <td>91.69%</td>
     </tr>
     <tr>
-      <th>9</th>
-      <td>Pena High School</td>
+      <th>Pena High School</th>
       <td>Charter</td>
       <td>962</td>
       <td>$585,858</td>
@@ -1250,8 +1226,7 @@ Score</th>
       <td>91.94%</td>
     </tr>
     <tr>
-      <th>10</th>
-      <td>Wright High School</td>
+      <th>Wright High School</th>
       <td>Charter</td>
       <td>1800</td>
       <td>$1,049,400</td>
@@ -1263,8 +1238,7 @@ Score</th>
       <td>91.86%</td>
     </tr>
     <tr>
-      <th>11</th>
-      <td>Rodriguez High School</td>
+      <th>Rodriguez High School</th>
       <td>District</td>
       <td>3999</td>
       <td>$2,547,363</td>
@@ -1276,8 +1250,7 @@ Score</th>
       <td>70.91%</td>
     </tr>
     <tr>
-      <th>12</th>
-      <td>Johnson High School</td>
+      <th>Johnson High School</th>
       <td>District</td>
       <td>4761</td>
       <td>$3,094,650</td>
@@ -1289,8 +1262,7 @@ Score</th>
       <td>71.07%</td>
     </tr>
     <tr>
-      <th>13</th>
-      <td>Ford High School</td>
+      <th>Ford High School</th>
       <td>District</td>
       <td>2739</td>
       <td>$1,763,916</td>
@@ -1302,8 +1274,7 @@ Score</th>
       <td>71.63%</td>
     </tr>
     <tr>
-      <th>14</th>
-      <td>Thomas High School</td>
+      <th>Thomas High School</th>
       <td>Charter</td>
       <td>1635</td>
       <td>$1,043,130</td>
@@ -1317,6 +1288,25 @@ Score</th>
   </tbody>
 </table>
 </div>
+
+
+
+
+```python
+"""The school summary table presents the key findings the performance of students in math and reading by schools. 
+We can also draw conclusions based on the type of the school from the above table. It is found that out of 15 schools, 
+seven schools are district type and the rest are of charter type. District type school is much larger in terms of 
+student size. It is also observed that per student budget is smaller in charter school than in district 
+type school. This may be due to larger student size in the district school. It is revealed that students are having 
+higher average math and reading score in the charter type school than the students in district type school. 
+When we set score greater than 70 as passing we find that students in charter school have higher pass rate. 
+It is possible that with small class size charter school performed better."""
+```
+
+
+
+
+    'The school summary table presents the key findings the performance of students in math and reading by schools. \nWe can also draw conclusions based on the type of the school from the above table. It is found that out of 15 schools, \nseven schools are district type and the rest are of charter type. District type school is much larger in terms of \nstudent size. It is also observed that per student budget is smaller in charter school than in district \ntype school. This may be due to larger student size in the district school. It is revealed that students are having \nhigher average math and reading score in the charter type school than the students in district type school. \nWhen we set score greater than 70 as passing we find that students in charter school have higher pass rate. \nIt is possible that with small class size charter school performed better.'
 
 
 
@@ -1351,7 +1341,6 @@ top_five_school
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>School Name</th>
       <th>School Type</th>
       <th>Total Students</th>
       <th>Total budget</th>
@@ -1364,11 +1353,22 @@ Score</th>
       <th>% Passing Reading</th>
       <th>Overall Passing Rate</th>
     </tr>
+    <tr>
+      <th>School Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
     <tr>
-      <th>5</th>
-      <td>Wilson High School</td>
+      <th>Wilson High School</th>
       <td>Charter</td>
       <td>2283</td>
       <td>$1,319,574</td>
@@ -1380,8 +1380,7 @@ Score</th>
       <td>92.09%</td>
     </tr>
     <tr>
-      <th>9</th>
-      <td>Pena High School</td>
+      <th>Pena High School</th>
       <td>Charter</td>
       <td>962</td>
       <td>$585,858</td>
@@ -1393,8 +1392,7 @@ Score</th>
       <td>91.94%</td>
     </tr>
     <tr>
-      <th>10</th>
-      <td>Wright High School</td>
+      <th>Wright High School</th>
       <td>Charter</td>
       <td>1800</td>
       <td>$1,049,400</td>
@@ -1406,8 +1404,7 @@ Score</th>
       <td>91.86%</td>
     </tr>
     <tr>
-      <th>6</th>
-      <td>Cabrera High School</td>
+      <th>Cabrera High School</th>
       <td>Charter</td>
       <td>1858</td>
       <td>$1,081,356</td>
@@ -1419,8 +1416,7 @@ Score</th>
       <td>91.71%</td>
     </tr>
     <tr>
-      <th>8</th>
-      <td>Holden High School</td>
+      <th>Holden High School</th>
       <td>Charter</td>
       <td>427</td>
       <td>$248,087</td>
@@ -1436,6 +1432,12 @@ Score</th>
 </div>
 
 
+
+
+```python
+""" All top five schools are in charter category. As described above in the school summary table, it is expected 
+that the charter type school will come out as better performer in both math and reading test. """
+```
 
 
 ```python
@@ -1465,7 +1467,6 @@ bottom_five_school
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>School Name</th>
       <th>School Type</th>
       <th>Total Students</th>
       <th>Total budget</th>
@@ -1478,11 +1479,22 @@ Score</th>
       <th>% Passing Reading</th>
       <th>Overall Passing Rate</th>
     </tr>
+    <tr>
+      <th>School Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
     <tr>
-      <th>3</th>
-      <td>Hernandez High School</td>
+      <th>Hernandez High School</th>
       <td>District</td>
       <td>4635</td>
       <td>$3,022,020</td>
@@ -1494,8 +1506,7 @@ Score</th>
       <td>71.47%</td>
     </tr>
     <tr>
-      <th>1</th>
-      <td>Figueroa High School</td>
+      <th>Figueroa High School</th>
       <td>District</td>
       <td>2949</td>
       <td>$1,884,411</td>
@@ -1507,8 +1518,7 @@ Score</th>
       <td>71.09%</td>
     </tr>
     <tr>
-      <th>0</th>
-      <td>Huang High School</td>
+      <th>Huang High School</th>
       <td>District</td>
       <td>2917</td>
       <td>$1,910,635</td>
@@ -1520,8 +1530,7 @@ Score</th>
       <td>71.07%</td>
     </tr>
     <tr>
-      <th>12</th>
-      <td>Johnson High School</td>
+      <th>Johnson High School</th>
       <td>District</td>
       <td>4761</td>
       <td>$3,094,650</td>
@@ -1533,8 +1542,7 @@ Score</th>
       <td>71.07%</td>
     </tr>
     <tr>
-      <th>11</th>
-      <td>Rodriguez High School</td>
+      <th>Rodriguez High School</th>
       <td>District</td>
       <td>3999</td>
       <td>$2,547,363</td>
@@ -1550,6 +1558,13 @@ Score</th>
 </div>
 
 
+
+
+```python
+""" And the bottom five schools are of district type. Overall passing rate is much lower among the students of district
+type school than those in the charter school. Overall passing rate here is near 70 percent whereas in the top five school 
+table it is above 90 percent. """
+```
 
 
 ```python
@@ -1626,6 +1641,163 @@ Score</th>
 
 
 ```python
+# Reshaping math score table by grade from long to wide
+math_score_byGrade = avg_math_perSchoolGrade.pivot(index='School Name', columns='Grade', values='Average Math \nScore')
+math_score_grade = pd.DataFrame(math_score_byGrade.to_records())
+math_score_grade.set_index(['School Name'], inplace=True)
+del math_score_grade.index.name
+math_score_grade = math_score_grade.loc[:,('9th', '10th', '11th', '12th')]
+math_score_grade
+```
+
+
+
+
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>9th</th>
+      <th>10th</th>
+      <th>11th</th>
+      <th>12th</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Bailey High School</th>
+      <td>77.083676</td>
+      <td>76.996772</td>
+      <td>77.515588</td>
+      <td>76.492218</td>
+    </tr>
+    <tr>
+      <th>Cabrera High School</th>
+      <td>83.094697</td>
+      <td>83.154506</td>
+      <td>82.765560</td>
+      <td>83.277487</td>
+    </tr>
+    <tr>
+      <th>Figueroa High School</th>
+      <td>76.403037</td>
+      <td>76.539974</td>
+      <td>76.884344</td>
+      <td>77.151369</td>
+    </tr>
+    <tr>
+      <th>Ford High School</th>
+      <td>77.361345</td>
+      <td>77.672316</td>
+      <td>76.918058</td>
+      <td>76.179963</td>
+    </tr>
+    <tr>
+      <th>Griffin High School</th>
+      <td>82.044010</td>
+      <td>84.229064</td>
+      <td>83.842105</td>
+      <td>83.356164</td>
+    </tr>
+    <tr>
+      <th>Hernandez High School</th>
+      <td>77.438495</td>
+      <td>77.337408</td>
+      <td>77.136029</td>
+      <td>77.186567</td>
+    </tr>
+    <tr>
+      <th>Holden High School</th>
+      <td>83.787402</td>
+      <td>83.429825</td>
+      <td>85.000000</td>
+      <td>82.855422</td>
+    </tr>
+    <tr>
+      <th>Huang High School</th>
+      <td>77.027251</td>
+      <td>75.908735</td>
+      <td>76.446602</td>
+      <td>77.225641</td>
+    </tr>
+    <tr>
+      <th>Johnson High School</th>
+      <td>77.187857</td>
+      <td>76.691117</td>
+      <td>77.491653</td>
+      <td>76.863248</td>
+    </tr>
+    <tr>
+      <th>Pena High School</th>
+      <td>83.625455</td>
+      <td>83.372000</td>
+      <td>84.328125</td>
+      <td>84.121547</td>
+    </tr>
+    <tr>
+      <th>Rodriguez High School</th>
+      <td>76.859966</td>
+      <td>76.612500</td>
+      <td>76.395626</td>
+      <td>77.690748</td>
+    </tr>
+    <tr>
+      <th>Shelton High School</th>
+      <td>83.420755</td>
+      <td>82.917411</td>
+      <td>83.383495</td>
+      <td>83.778976</td>
+    </tr>
+    <tr>
+      <th>Thomas High School</th>
+      <td>83.590022</td>
+      <td>83.087886</td>
+      <td>83.498795</td>
+      <td>83.497041</td>
+    </tr>
+    <tr>
+      <th>Wilson High School</th>
+      <td>83.085578</td>
+      <td>83.724422</td>
+      <td>83.195326</td>
+      <td>83.035794</td>
+    </tr>
+    <tr>
+      <th>Wright High School</th>
+      <td>83.264706</td>
+      <td>84.010288</td>
+      <td>83.836782</td>
+      <td>83.644986</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+""" The table of average math score by grade level provides no conclusive evidence on the performance of students in 
+math. In some schools it seems that 9th grader did better than the students in higher grade whereas in other schools the 
+scenario is different with better performance in the higher grades."""
+```
+
+
+```python
 # Reading Score by Grade by School 
 avg_read_perSchoolGrade = pd.DataFrame(students.groupby(['School Name','grade'])['reading_score'].mean().reset_index())
 avg_read_perSchoolGrade.rename(columns = {'reading_score': 'Average Reading \nScore', 'grade': 'Grade'}, inplace=True)
@@ -1699,6 +1871,161 @@ Score</th>
 
 
 ```python
+# Reshaping math score table by grade from long to wide
+read_score_byGrade = avg_read_perSchoolGrade.pivot(index='School Name', columns='Grade', values='Average Reading \nScore')
+read_score_grade = pd.DataFrame(read_score_byGrade.to_records())
+read_score_grade.set_index(['School Name'], inplace=True)
+del read_score_grade.index.name
+read_score_grade = read_score_grade.loc[:,('9th', '10th', '11th', '12th')]
+read_score_grade
+```
+
+
+
+
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>9th</th>
+      <th>10th</th>
+      <th>11th</th>
+      <th>12th</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Bailey High School</th>
+      <td>81.303155</td>
+      <td>80.907183</td>
+      <td>80.945643</td>
+      <td>80.912451</td>
+    </tr>
+    <tr>
+      <th>Cabrera High School</th>
+      <td>83.676136</td>
+      <td>84.253219</td>
+      <td>83.788382</td>
+      <td>84.287958</td>
+    </tr>
+    <tr>
+      <th>Figueroa High School</th>
+      <td>81.198598</td>
+      <td>81.408912</td>
+      <td>80.640339</td>
+      <td>81.384863</td>
+    </tr>
+    <tr>
+      <th>Ford High School</th>
+      <td>80.632653</td>
+      <td>81.262712</td>
+      <td>80.403642</td>
+      <td>80.662338</td>
+    </tr>
+    <tr>
+      <th>Griffin High School</th>
+      <td>83.369193</td>
+      <td>83.706897</td>
+      <td>84.288089</td>
+      <td>84.013699</td>
+    </tr>
+    <tr>
+      <th>Hernandez High School</th>
+      <td>80.866860</td>
+      <td>80.660147</td>
+      <td>81.396140</td>
+      <td>80.857143</td>
+    </tr>
+    <tr>
+      <th>Holden High School</th>
+      <td>83.677165</td>
+      <td>83.324561</td>
+      <td>83.815534</td>
+      <td>84.698795</td>
+    </tr>
+    <tr>
+      <th>Huang High School</th>
+      <td>81.290284</td>
+      <td>81.512386</td>
+      <td>81.417476</td>
+      <td>80.305983</td>
+    </tr>
+    <tr>
+      <th>Johnson High School</th>
+      <td>81.260714</td>
+      <td>80.773431</td>
+      <td>80.616027</td>
+      <td>81.227564</td>
+    </tr>
+    <tr>
+      <th>Pena High School</th>
+      <td>83.807273</td>
+      <td>83.612000</td>
+      <td>84.335938</td>
+      <td>84.591160</td>
+    </tr>
+    <tr>
+      <th>Rodriguez High School</th>
+      <td>80.993127</td>
+      <td>80.629808</td>
+      <td>80.864811</td>
+      <td>80.376426</td>
+    </tr>
+    <tr>
+      <th>Shelton High School</th>
+      <td>84.122642</td>
+      <td>83.441964</td>
+      <td>84.373786</td>
+      <td>82.781671</td>
+    </tr>
+    <tr>
+      <th>Thomas High School</th>
+      <td>83.728850</td>
+      <td>84.254157</td>
+      <td>83.585542</td>
+      <td>83.831361</td>
+    </tr>
+    <tr>
+      <th>Wilson High School</th>
+      <td>83.939778</td>
+      <td>84.021452</td>
+      <td>83.764608</td>
+      <td>84.317673</td>
+    </tr>
+    <tr>
+      <th>Wright High School</th>
+      <td>83.833333</td>
+      <td>83.812757</td>
+      <td>84.156322</td>
+      <td>84.073171</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+"""In the above table we find that there is no or less difference in performance of students among different grades."""
+```
+
+
+```python
 # Scores by School Spending
 schools_summary_sub = schools_summary.loc[:,('School Name', 'type', 'Total Students', 'Per Student Budget')]
 schools_sub_df = pd.merge(students, schools_summary_sub, on ='School Name')
@@ -1761,7 +2088,6 @@ schools_sub_df.head()
       <th>Total Students</th>
       <th>Per Student Budget</th>
       <th>budget_group</th>
-      <th>student_group</th>
     </tr>
   </thead>
   <tbody>
@@ -1778,7 +2104,6 @@ schools_sub_df.head()
       <td>2917</td>
       <td>655.0</td>
       <td>651 to 675</td>
-      <td>Medium (1000 to 3000)</td>
     </tr>
     <tr>
       <th>1</th>
@@ -1793,7 +2118,6 @@ schools_sub_df.head()
       <td>2917</td>
       <td>655.0</td>
       <td>651 to 675</td>
-      <td>Medium (1000 to 3000)</td>
     </tr>
     <tr>
       <th>2</th>
@@ -1808,7 +2132,6 @@ schools_sub_df.head()
       <td>2917</td>
       <td>655.0</td>
       <td>651 to 675</td>
-      <td>Medium (1000 to 3000)</td>
     </tr>
     <tr>
       <th>3</th>
@@ -1823,7 +2146,6 @@ schools_sub_df.head()
       <td>2917</td>
       <td>655.0</td>
       <td>651 to 675</td>
-      <td>Medium (1000 to 3000)</td>
     </tr>
     <tr>
       <th>4</th>
@@ -1838,7 +2160,6 @@ schools_sub_df.head()
       <td>2917</td>
       <td>655.0</td>
       <td>651 to 675</td>
-      <td>Medium (1000 to 3000)</td>
     </tr>
   </tbody>
 </table>
@@ -1851,7 +2172,7 @@ schools_sub_df.head()
 # Compute average math score for each spending range 
 avg_math_perBudget = pd.DataFrame(schools_sub_df['math_score'].groupby(schools_sub_df['budget_group']).mean())
 avg_math_perBudget.reset_index(inplace=True)
-avg_math_perBudget.rename(columns = {'math_score': 'Average Math \nScore', 'budget_group':'Spending Range'}, inplace=True)
+avg_math_perBudget.rename(columns = {'math_score': 'Average Math \nScore', 'budget_group':'Spending Range (Per Student)'}, inplace=True)
 avg_math_perBudget.head()
 ```
 
@@ -1876,7 +2197,7 @@ avg_math_perBudget.head()
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>Spending Range</th>
+      <th>Spending Range (Per Student)</th>
       <th>Average Math 
 Score</th>
     </tr>
@@ -1913,7 +2234,7 @@ Score</th>
 # Compute average reading score for each spending range 
 avg_read_perBudget = pd.DataFrame(schools_sub_df['reading_score'].groupby(schools_sub_df['budget_group']).mean())
 avg_read_perBudget.reset_index(inplace=True)
-avg_read_perBudget.rename(columns = {'reading_score': 'Average Reading \nScore', 'budget_group':'Spending Range'}, inplace=True)
+avg_read_perBudget.rename(columns = {'reading_score': 'Average Reading \nScore', 'budget_group':'Spending Range (Per Student)'}, inplace=True)
 avg_read_perBudget.head()
 ```
 
@@ -1938,7 +2259,7 @@ avg_read_perBudget.head()
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>Spending Range</th>
+      <th>Spending Range (Per Student)</th>
       <th>Average Reading 
 Score</th>
     </tr>
@@ -1972,7 +2293,7 @@ Score</th>
 
 
 ```python
-math_reading_perBudget = pd.merge(avg_math_perBudget, avg_read_perBudget, on ='Spending Range')
+math_reading_perBudget = pd.merge(avg_math_perBudget, avg_read_perBudget, on ='Spending Range (Per Student)')
 math_reading_perBudget.head()
 ```
 
@@ -1997,7 +2318,7 @@ math_reading_perBudget.head()
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>Spending Range</th>
+      <th>Spending Range (Per Student)</th>
       <th>Average Math 
 Score</th>
       <th>Average Reading 
@@ -2056,7 +2377,7 @@ mathPass_group_df.rename(columns = {'name': 'number of students passed'}, inplac
 # Compute percent passing math for each spending range 
 mathPass_group_df['% Passing Math'] = mathPass_group_df['number of students passed']/mathPass_group_df['total students']*100
 mathPass_group_df = mathPass_group_df.loc[:,('budget_group', '% Passing Math')]
-mathPass_group_df.rename(columns = {'budget_group': 'Spending Range'}, inplace=True)
+mathPass_group_df.rename(columns = {'budget_group': 'Spending Range (Per Student)'}, inplace=True)
 mathPass_group_df.head()
 ```
 
@@ -2081,7 +2402,7 @@ mathPass_group_df.head()
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>Spending Range</th>
+      <th>Spending Range (Per Student)</th>
       <th>% Passing Math</th>
     </tr>
   </thead>
@@ -2128,7 +2449,7 @@ readPass_group_df.rename(columns = {'name': 'number of students passed'}, inplac
 # Compute percent passing math for each spending range 
 readPass_group_df['% Passing Reading'] = readPass_group_df['number of students passed']/readPass_group_df['total students']*100
 readPass_group_df = readPass_group_df.loc[:,('budget_group', '% Passing Reading')]
-readPass_group_df.rename(columns={'budget_group': 'Spending Range'}, inplace=True)
+readPass_group_df.rename(columns={'budget_group': 'Spending Range (Per Student)'}, inplace=True)
 readPass_group_df.head()
 ```
 
@@ -2153,7 +2474,7 @@ readPass_group_df.head()
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>Spending Range</th>
+      <th>Spending Range (Per Student)</th>
       <th>% Passing Reading</th>
     </tr>
   </thead>
@@ -2187,87 +2508,12 @@ readPass_group_df.head()
 
 ```python
 # Scores by School Spending
-mathRead_pass_df = pd.merge(mathPass_group_df,readPass_group_df, on ='Spending Range')
-spendingRange_summary = pd.merge(math_reading_perBudget,mathRead_pass_df, on='Spending Range')
+mathRead_pass_df = pd.merge(mathPass_group_df,readPass_group_df, on ='Spending Range (Per Student)')
+spendingRange_summary = pd.merge(math_reading_perBudget,mathRead_pass_df, on='Spending Range (Per Student)')
 spendingRange_summary.rename(columns ={'reading_score':'Average Reading Score'}, inplace=True)
 spendingRange_summary['Overall Passing Rate']= (spendingRange_summary['% Passing Math']+
                                                 spendingRange_summary['% Passing Reading'])/2
-spendingRange_summary.head()
 ```
-
-
-
-
-<div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Spending Range</th>
-      <th>Average Math 
-Score</th>
-      <th>Average Reading 
-Score</th>
-      <th>% Passing Math</th>
-      <th>% Passing Reading</th>
-      <th>Overall Passing Rate</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>575 to 600</td>
-      <td>83.362283</td>
-      <td>83.912412</td>
-      <td>90.232501</td>
-      <td>93.271005</td>
-      <td>91.751753</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>601 to 625</td>
-      <td>83.544856</td>
-      <td>83.906996</td>
-      <td>90.493827</td>
-      <td>92.921811</td>
-      <td>91.707819</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>626 to 650</td>
-      <td>77.469253</td>
-      <td>81.162258</td>
-      <td>66.356427</td>
-      <td>79.476708</td>
-      <td>72.916568</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>651 to 675</td>
-      <td>77.034693</td>
-      <td>81.030323</td>
-      <td>64.194915</td>
-      <td>78.429555</td>
-      <td>71.312235</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
 
 
 ```python
@@ -2277,6 +2523,7 @@ spendingRange_summary["Average Reading \nScore"] = spendingRange_summary["Averag
 spendingRange_summary["% Passing Math"] = spendingRange_summary["% Passing Math"].map("{0:,.2f}%".format)
 spendingRange_summary["% Passing Reading"] = spendingRange_summary["% Passing Reading"].map("{0:,.2f}%".format)
 spendingRange_summary["Overall Passing Rate"] = spendingRange_summary["Overall Passing Rate"].map("{0:,.2f}%".format)
+spendingRange_summary.set_index(['Spending Range (Per Student)'], inplace=True)
 spendingRange_summary
 ```
 
@@ -2301,7 +2548,6 @@ spendingRange_summary
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>Spending Range</th>
       <th>Average Math 
 Score</th>
       <th>Average Reading 
@@ -2310,11 +2556,18 @@ Score</th>
       <th>% Passing Reading</th>
       <th>Overall Passing Rate</th>
     </tr>
+    <tr>
+      <th>Spending Range (Per Student)</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
-      <td>575 to 600</td>
+      <th>575 to 600</th>
       <td>83.36</td>
       <td>83.91</td>
       <td>90.23%</td>
@@ -2322,8 +2575,7 @@ Score</th>
       <td>91.75%</td>
     </tr>
     <tr>
-      <th>1</th>
-      <td>601 to 625</td>
+      <th>601 to 625</th>
       <td>83.54</td>
       <td>83.91</td>
       <td>90.49%</td>
@@ -2331,8 +2583,7 @@ Score</th>
       <td>91.71%</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>626 to 650</td>
+      <th>626 to 650</th>
       <td>77.47</td>
       <td>81.16</td>
       <td>66.36%</td>
@@ -2340,8 +2591,7 @@ Score</th>
       <td>72.92%</td>
     </tr>
     <tr>
-      <th>3</th>
-      <td>651 to 675</td>
+      <th>651 to 675</th>
       <td>77.03</td>
       <td>81.03</td>
       <td>64.19%</td>
@@ -2353,6 +2603,12 @@ Score</th>
 </div>
 
 
+
+
+```python
+""" The above table shows that the schools with lower spending per student fared better in both subjects - math and
+reading. """
+```
 
 
 ```python
@@ -2821,73 +3077,7 @@ mathRead_pass_size = pd.merge(mathPass_size_df,readPass_size_df, on ='School Siz
 schoolSize_summary = pd.merge(math_reading_perSize, mathRead_pass_size, on = 'School Size')
 schoolSize_summary['Overall Passing Rate'] = (schoolSize_summary['% Passing Math']+
                                                 schoolSize_summary['% Passing Reading'])/2
-schoolSize_summary.head()
 ```
-
-
-
-
-<div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>School Size</th>
-      <th>Average Math 
-Score</th>
-      <th>Average Reading 
-Score</th>
-      <th>% Passing Math</th>
-      <th>% Passing Reading</th>
-      <th>Overall Passing Rate</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Small (&lt;1000)</td>
-      <td>83.828654</td>
-      <td>83.974082</td>
-      <td>91.360691</td>
-      <td>92.368611</td>
-      <td>91.864651</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Medium (1000 to 3000)</td>
-      <td>80.450902</td>
-      <td>82.626481</td>
-      <td>78.660484</td>
-      <td>86.609995</td>
-      <td>82.635240</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Large (&gt;3000)</td>
-      <td>77.070764</td>
-      <td>80.928365</td>
-      <td>64.335093</td>
-      <td>78.417070</td>
-      <td>71.376082</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
 
 
 ```python
@@ -2897,6 +3087,7 @@ schoolSize_summary["Average Reading \nScore"] = schoolSize_summary["Average Read
 schoolSize_summary["% Passing Math"] = schoolSize_summary["% Passing Math"].map("{0:,.2f}%".format)
 schoolSize_summary["% Passing Reading"] = schoolSize_summary["% Passing Reading"].map("{0:,.2f}%".format)
 schoolSize_summary["Overall Passing Rate"] = schoolSize_summary["Overall Passing Rate"].map("{0:,.2f}%".format)
+schoolSize_summary.set_index(['School Size'], inplace=True)
 schoolSize_summary
 ```
 
@@ -2921,7 +3112,6 @@ schoolSize_summary
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>School Size</th>
       <th>Average Math 
 Score</th>
       <th>Average Reading 
@@ -2930,11 +3120,18 @@ Score</th>
       <th>% Passing Reading</th>
       <th>Overall Passing Rate</th>
     </tr>
+    <tr>
+      <th>School Size</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
-      <td>Small (&lt;1000)</td>
+      <th>Small (&lt;1000)</th>
       <td>83.83</td>
       <td>83.97</td>
       <td>91.36%</td>
@@ -2942,8 +3139,7 @@ Score</th>
       <td>91.86%</td>
     </tr>
     <tr>
-      <th>1</th>
-      <td>Medium (1000 to 3000)</td>
+      <th>Medium (1000 to 3000)</th>
       <td>80.45</td>
       <td>82.63</td>
       <td>78.66%</td>
@@ -2951,8 +3147,7 @@ Score</th>
       <td>82.64%</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>Large (&gt;3000)</td>
+      <th>Large (&gt;3000)</th>
       <td>77.07</td>
       <td>80.93</td>
       <td>64.34%</td>
@@ -2964,6 +3159,12 @@ Score</th>
 </div>
 
 
+
+
+```python
+""" Schools did better when the student size remained smaller as the above table indicates. Small sized school(
+having total students less than 1000) did better than other two categories of schools - medium and large. """
+```
 
 
 ```python
@@ -3325,6 +3526,7 @@ schoolType_summary["Average Reading \nScore"] = schoolType_summary["Average Read
 schoolType_summary["% Passing Math"] = schoolType_summary["% Passing Math"].map("{0:,.2f}%".format)
 schoolType_summary["% Passing Reading"] = schoolType_summary["% Passing Reading"].map("{0:,.2f}%".format)
 schoolType_summary["Overall Passing Rate"] = schoolType_summary["Overall Passing Rate"].map("{0:,.2f}%".format)
+schoolType_summary.set_index(['School Type'], inplace=True)
 schoolType_summary
 ```
 
@@ -3349,7 +3551,6 @@ schoolType_summary
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>School Type</th>
       <th>Average Math 
 Score</th>
       <th>Average Reading 
@@ -3358,11 +3559,18 @@ Score</th>
       <th>% Passing Reading</th>
       <th>Overall Passing Rate</th>
     </tr>
+    <tr>
+      <th>School Type</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
-      <td>Charter</td>
+      <th>Charter</th>
       <td>83.41</td>
       <td>83.90</td>
       <td>90.28%</td>
@@ -3370,8 +3578,7 @@ Score</th>
       <td>91.72%</td>
     </tr>
     <tr>
-      <th>1</th>
-      <td>District</td>
+      <th>District</th>
       <td>76.99</td>
       <td>80.96</td>
       <td>64.31%</td>
@@ -3383,3 +3590,11 @@ Score</th>
 </div>
 
 
+
+
+```python
+""" As observed in the previous summary tables, charter type school outperformed district schools in math, fared
+relatively better in reading section. The passing rate is far greater in charter school than in district school.
+Small class size is likely to be a key contributing factor in the better performance of the students in the charter
+school."""
+```
