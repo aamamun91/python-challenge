@@ -432,10 +432,10 @@ district_summary
 
 
 ```python
-# The above district level summary table reveals that with a total of 24.5 million dollar budget and having over 39000 
-# students in the district, performance of students is better in reading than in math as the average score is higher in reading. 
-# This is also reflected in the passing rate. 
-# Passing rate in reading is higher than in math by around 10 percentage points. 
+"""The above district level summary table reveals that with a total of 24.5 million dollar budget and having over 39000 
+students in the district, performance of students is better in reading than in math as the average score is higher in 
+reading. This is also reflected in the passing rate. Passing rate in reading is higher than in math by around 10 
+percentage points. """
 ```
 
 
@@ -1296,10 +1296,10 @@ Score</th>
 """The school summary table presents the key findings the performance of students in math and reading by schools. 
 We can also draw conclusions based on the type of the school from the above table. It is found that out of 15 schools, 
 seven schools are district type and the rest are of charter type. District type school is much larger in terms of 
-student size. It is also observed that per student budget is smaller in charter school than in district 
-type school. This may be due to larger student size in the district school. It is revealed that students are having 
+student size. It is also observed that per student budget is smaller, raning from 578 to 638 dollar per student,
+in charter school than in district type school. This may be due to larger student size in the district school. It is revealed that students are having 
 higher average math and reading score in the charter type school than the students in district type school. 
-When we set score greater than 70 as passing we find that students in charter school have higher pass rate. 
+When we set score greater than 70 as passing we find that students in charter school have higher overall pass rate. 
 It is possible that with small class size charter school performed better."""
 ```
 
